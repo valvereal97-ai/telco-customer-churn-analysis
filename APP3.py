@@ -397,6 +397,48 @@ elif opcion == "📊 Análisis EDA":
         )
 
         estadisticas = analyzer.estadisticas_descriptivas()
+                # ==========================================
+        # ANÁLISIS 3: DISTRIBUCIÓN DE VARIABLES
+        # NUMÉRICAS
+        # ==========================================
+
+        st.header("3️⃣ Distribución de variables numéricas")
+
+        st.write(
+            "Histogramas para observar la distribución "
+            "de las principales variables numéricas."
+        )
+
+        variables_graficos = [
+            "tenure",
+            "MonthlyCharges",
+            "TotalCharges"
+        ]
+
+        for variable in variables_graficos:
+
+            if variable in df.columns:
+
+                st.subheader(f"Distribución de {variable}")
+
+                fig, ax = plt.subplots()
+
+                ax.hist(
+                    df[variable].dropna(),
+                    bins=20
+                )
+
+                ax.set_title(
+                    f"Distribución de {variable}"
+                )
+
+                ax.set_xlabel(variable)
+
+                ax.set_ylabel("Cantidad de clientes")
+
+                st.pyplot(fig)
+
+                plt.close(fig)
 
         st.dataframe(
             estadisticas,
