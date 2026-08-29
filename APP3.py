@@ -297,6 +297,22 @@ elif opcion == "📂 Carga de datos":
 elif opcion == "📊 Análisis EDA":
 
     st.title("📊 Análisis Exploratorio de Datos")
+        st.info(
+        "📌 Proyecto desarrollado para analizar los factores "
+        "relacionados con el abandono de clientes en una empresa "
+        "de telecomunicaciones."
+    )
+    st.markdown("---")
+
+    st.write("### 🎯 Objetivo del proyecto")
+
+    st.write(
+        """
+        Analizar las características de los clientes y detectar
+        patrones relacionados con el Churn mediante técnicas de
+        Análisis Exploratorio de Datos (EDA).
+        """
+    )
 
     # ------------------------------------------
     # VERIFICAR SI EXISTE UN DATASET
