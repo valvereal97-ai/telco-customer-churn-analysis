@@ -890,3 +890,57 @@ elif opcion == "📊 Análisis EDA":
         st.pyplot(fig)
 
         plt.close(fig)
+                # ==========================================
+        # CONCLUSIONES DEL ANÁLISIS
+        # ==========================================
+
+        st.header("📝 Conclusiones generales")
+
+        # Porcentaje de churn
+        porcentaje_churn = (
+            (df["Churn"] == "Yes").mean() * 100
+        )
+
+        # Contrato con mayor cantidad de clientes
+        contrato_mayor_churn = (
+            df[df["Churn"] == "Yes"]["Contract"]
+            .value_counts()
+            .idxmax()
+        )
+
+        # Método de pago con mayor cantidad de churn
+        pago_mayor_churn = (
+            df[df["Churn"] == "Yes"]["PaymentMethod"]
+            .value_counts()
+            .idxmax()
+        )
+
+        # Promedio de cargos mensuales
+        promedio_monthly = df["MonthlyCharges"].mean()
+
+        st.write(
+            f"""
+            ### 🔎 Principales hallazgos
+
+            - El porcentaje de clientes que abandonaron la empresa
+              es aproximadamente **{porcentaje_churn:.2f}%**.
+
+            - El tipo de contrato con mayor cantidad de clientes
+              que abandonaron es **{contrato_mayor_churn}**.
+
+            - El método de pago con mayor cantidad de clientes
+              que abandonaron es **{pago_mayor_churn}**.
+
+            - El cargo mensual promedio de los clientes es
+              aproximadamente **{promedio_monthly:.2f}**.
+
+            Estos resultados permiten identificar patrones de
+            comportamiento asociados al abandono de clientes y
+            pueden servir como punto de partida para desarrollar
+            estrategias de retención.
+            """
+        )
+
+        st.success(
+            "✅ Análisis exploratorio finalizado correctamente."
+        )
