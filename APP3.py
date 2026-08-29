@@ -80,46 +80,145 @@ if opcion == "🏠 Home":
 
 
 # ==========================================
-# CARGA DEL DATASET
+# CARGA Y PREPARACIÓN DEL DATASET
 # ==========================================
 
 elif opcion == "📂 Carga de datos":
 
-    st.title("📂 Carga del dataset")
+    st.title("📂 Carga y preparación del dataset")
 
     st.write(
-        "Selecciona el archivo TelcoCustomerChurn.csv para comenzar el análisis."
+        "Carga un archivo CSV para comenzar el análisis exploratorio."
     )
 
     archivo = st.file_uploader(
-        "Carga tu archivo CSV",
+        "Selecciona tu archivo CSV",
         type=["csv"]
     )
 
     if archivo is not None:
 
+        # ------------------------------------------
+        # 1. LECTURA DEL ARCHIVO
+        # ------------------------------------------
+
         df = pd.read_csv(archivo)
 
         st.success("✅ Archivo cargado correctamente.")
 
+        # ------------------------------------------
+        # 2. INFORMACIÓN GENERAL
+        # ------------------------------------------
+
         st.subheader("👀 Vista previa del dataset")
 
-        st.dataframe(df.head())
+        st.dataframe(
+            df.head(),
+            use_container_width=True
+        )
+
+        # ------------------------------------------
+        # 3. DIMENSIONES
+        # ------------------------------------------
 
         st.subheader("📐 Dimensiones del dataset")
 
         col1, col2 = st.columns(2)
 
         with col1:
-            st.metric("Número de filas", df.shape[0])
+            st.metric(
+                "Número de filas",
+                df.shape[0]
+            )
 
         with col2:
-            st.metric("Número de columnas", df.shape[1])
+            st.metric(
+                "Número de columnas",
+                df.shape[1]
+            )
+
+        # ------------------------------------------
+        # 4. TIPOS DE DATOS
+        # ------------------------------------------
+
+        st.subheader("🔎 Tipos de datos")
+
+        tipos_datos = pd.DataFrame({
+            "Columna": df.columns,
+            "Tipo de dato": df.dtypes.astype(str).values
+        })
+
+        st.dataframe(
+            tipos_datos,
+            use_container_width=True
+        )
+
+        # ------------------------------------------
+        # 5. VALORES NULOS
+        # ------------------------------------------
+
+        st.subheader("⚠️ Valores faltantes")
+
+        nulos = pd.DataFrame({
+            "Columna": df.columns,
+            "Valores nulos": df.isnull().sum().values
+        })
+
+        nulos = nulos.sort_values(
+            by="Valores nulos",
+            ascending=False
+        )
+
+        st.dataframe(
+            nulos,
+            use_container_width=True
+        )
+
+        # ------------------------------------------
+        # 6. CONVERSIÓN DE TOTALCHARGES
+        # ------------------------------------------
+
+        if "TotalCharges" in df.columns:
+
+            df["TotalCharges"] = pd.to_numeric(
+                df["TotalCharges"],
+                errors="coerce"
+            )
+
+        # ------------------------------------------
+        # 7. RESUMEN DESPUÉS DE LA PREPARACIÓN
+        # ------------------------------------------
+
+        st.subheader("🧹 Datos preparados")
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.metric(
+                "Filas",
+                df.shape[0]
+            )
+
+        with col2:
+            st.metric(
+                "Columnas",
+                df.shape[1]
+            )
+
+        with col3:
+            st.metric(
+                "Nulos totales",
+                int(df.isnull().sum().sum())
+            )
+
+        st.success(
+            "✅ Los datos fueron revisados y preparados para el análisis."
+        )
 
     else:
 
         st.warning(
-            "⚠️ Debes cargar el archivo CSV para comenzar."
+            "⚠️ Debes cargar un archivo CSV para comenzar."
         )
 
 
