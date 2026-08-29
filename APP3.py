@@ -444,3 +444,164 @@ elif opcion == "📊 Análisis EDA":
             estadisticas,
             use_container_width=True
         )
+                # ==========================================
+        # ANÁLISIS 4: VALORES FALTANTES
+        # ==========================================
+
+        st.header("4️⃣ Análisis de valores faltantes")
+
+        st.write(
+            "Identificación de las variables que presentan "
+            "valores faltantes en el dataset."
+        )
+
+        nulos_analisis = analyzer.analizar_nulos()
+
+        if len(nulos_analisis) > 0:
+
+            st.dataframe(
+                nulos_analisis.rename(
+                    "Cantidad de valores faltantes"
+                ).to_frame(),
+                use_container_width=True
+            )
+
+            fig, ax = plt.subplots()
+
+            nulos_analisis.plot(
+                kind="bar",
+                ax=ax
+            )
+
+            ax.set_title(
+                "Valores faltantes por variable"
+            )
+
+            ax.set_xlabel("Variable")
+
+            ax.set_ylabel("Cantidad de valores faltantes")
+
+            plt.xticks(rotation=45)
+
+            st.pyplot(fig)
+
+            plt.close(fig)
+
+        else:
+
+            st.success(
+                "✅ No se encontraron valores faltantes."
+            )
+                    # ==========================================
+        # ANÁLISIS 5: DISTRIBUCIÓN DE CHURN
+        # ==========================================
+
+        st.header("5️⃣ Distribución de Churn")
+
+        st.write(
+            "Distribución de clientes según su estado "
+            "de permanencia o abandono."
+        )
+
+        churn_counts = df["Churn"].value_counts()
+
+        churn_percentage = (
+            df["Churn"]
+            .value_counts(normalize=True)
+            .mul(100)
+            .round(2)
+        )
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+
+            st.subheader("👥 Cantidad de clientes")
+
+            st.dataframe(
+                churn_counts.rename(
+                    "Cantidad"
+                ).to_frame(),
+                use_container_width=True
+            )
+
+        with col2:
+
+            st.subheader("📊 Porcentaje de clientes")
+
+            st.dataframe(
+                churn_percentage.rename(
+                    "Porcentaje (%)"
+                ).to_frame(),
+                use_container_width=True
+            )
+
+        # ------------------------------------------
+        # GRÁFICO
+        # ------------------------------------------
+
+        fig, ax = plt.subplots()
+
+        churn_counts.plot(
+            kind="bar",
+            ax=ax
+        )
+
+        ax.set_title(
+            "Distribución de clientes según Churn"
+        )
+
+        ax.set_xlabel("Churn")
+
+        ax.set_ylabel("Cantidad de clientes")
+
+        plt.xticks(rotation=0)
+
+        st.pyplot(fig)
+
+        plt.close(fig)
+                # ==========================================
+        # ANÁLISIS 6: CHURN SEGÚN TIPO DE CONTRATO
+        # ==========================================
+
+        st.header("6️⃣ Churn según tipo de contrato")
+
+        st.write(
+            "Análisis de la relación entre el tipo de contrato "
+            "y el abandono de clientes."
+        )
+
+        contrato_churn = pd.crosstab(
+            df["Contract"],
+            df["Churn"]
+        )
+
+        st.dataframe(
+            contrato_churn,
+            use_container_width=True
+        )
+
+        fig, ax = plt.subplots()
+
+        contrato_churn.plot(
+            kind="bar",
+            ax=ax
+        )
+
+        ax.set_title(
+            "Churn según tipo de contrato"
+        )
+
+        ax.set_xlabel("Tipo de contrato")
+
+        ax.set_ylabel("Cantidad de clientes")
+
+        plt.xticks(rotation=0)
+
+        ax.legend(
+            title="Churn"
+        )
+
+        st.pyplot(fig)
+
+        plt.close(fig)
