@@ -135,3 +135,8 @@ elif opcion == "📊 Análisis EDA":
         "Primero debes cargar el archivo CSV desde la sección "
         "'📂 Carga de datos'."
     )
+
+    st.info(
+        "Primero debes cargar el archivo CSV desde la sección "
+        "'📂 Carga de datos'."
+    )
