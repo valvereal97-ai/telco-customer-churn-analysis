@@ -740,3 +740,153 @@ elif opcion == "📊 Análisis EDA":
         st.pyplot(fig)
 
         plt.close(fig)
+                # ==========================================
+        # ANÁLISIS 10: CARGOS MENSUALES Y CHURN
+        # ==========================================
+
+        st.header("🔟 Cargos mensuales según Churn")
+
+        st.write(
+            "Comparación de los cargos mensuales entre "
+            "clientes que permanecen y clientes que abandonan."
+        )
+
+        fig, ax = plt.subplots()
+
+        sns.boxplot(
+            data=df,
+            x="Churn",
+            y="MonthlyCharges",
+            ax=ax
+        )
+
+        ax.set_title(
+            "Distribución de cargos mensuales según Churn"
+        )
+
+        ax.set_xlabel("Churn")
+
+        ax.set_ylabel("Cargos mensuales")
+
+        st.pyplot(fig)
+
+        plt.close(fig)
+                # ==========================================
+        # ANÁLISIS 11: TENURE VS MONTHLYCHARGES
+        # ==========================================
+
+        st.header("1️⃣1️⃣ Antigüedad vs cargos mensuales")
+
+        st.write(
+            "Relación entre la antigüedad del cliente "
+            "y sus cargos mensuales."
+        )
+
+        fig, ax = plt.subplots()
+
+        ax.scatter(
+            df["tenure"],
+            df["MonthlyCharges"],
+            alpha=0.5
+        )
+
+        ax.set_title(
+            "Relación entre antigüedad y cargos mensuales"
+        )
+
+        ax.set_xlabel(
+            "Antigüedad (meses)"
+        )
+
+        ax.set_ylabel(
+            "Cargos mensuales"
+        )
+
+        st.pyplot(fig)
+
+        plt.close(fig)
+                # ==========================================
+        # ANÁLISIS 12: MÉTODO DE PAGO Y CHURN
+        # ==========================================
+
+        st.header("1️⃣2️⃣ Método de pago y Churn")
+
+        st.write(
+            "Análisis de la relación entre el método "
+            "de pago utilizado y el abandono de clientes."
+        )
+
+        pago_churn = pd.crosstab(
+            df["PaymentMethod"],
+            df["Churn"]
+        )
+
+        st.dataframe(
+            pago_churn,
+            use_container_width=True
+        )
+
+        fig, ax = plt.subplots()
+
+        pago_churn.plot(
+            kind="bar",
+            ax=ax
+        )
+
+        ax.set_title(
+            "Churn según método de pago"
+        )
+
+        ax.set_xlabel(
+            "Método de pago"
+        )
+
+        ax.set_ylabel(
+            "Cantidad de clientes"
+        )
+
+        plt.xticks(rotation=45, ha="right")
+
+        ax.legend(
+            title="Churn"
+        )
+
+        st.pyplot(fig)
+
+        plt.close(fig)
+                # ==========================================
+        # ANÁLISIS 13: MATRIZ DE CORRELACIÓN
+        # ==========================================
+
+        st.header("1️⃣3️⃣ Matriz de correlación")
+
+        st.write(
+            "Matriz de correlación entre las variables "
+            "numéricas del dataset."
+        )
+
+        variables_correlacion = df.select_dtypes(
+            include=np.number
+        )
+
+        correlacion = variables_correlacion.corr()
+
+        fig, ax = plt.subplots(
+            figsize=(8, 6)
+        )
+
+        sns.heatmap(
+            correlacion,
+            annot=True,
+            cmap="coolwarm",
+            fmt=".2f",
+            ax=ax
+        )
+
+        ax.set_title(
+            "Matriz de correlación"
+        )
+
+        st.pyplot(fig)
+
+        plt.close(fig)
