@@ -6,6 +6,52 @@ import seaborn as sns
 
 
 # ==========================================
+# CLASE PARA EL ANÁLISIS DE DATOS
+# ==========================================
+
+class DataAnalyzer:
+
+    def __init__(self, df):
+        self.df = df
+
+    # --------------------------------------
+    # Clasificación de variables
+    # --------------------------------------
+
+    def clasificar_variables(self):
+
+        variables_numericas = self.df.select_dtypes(
+            include=np.number
+        ).columns.tolist()
+
+        variables_categoricas = self.df.select_dtypes(
+            exclude=np.number
+        ).columns.tolist()
+
+        return variables_numericas, variables_categoricas
+
+    # --------------------------------------
+    # Estadísticas descriptivas
+    # --------------------------------------
+
+    def estadisticas_descriptivas(self):
+
+        return self.df.describe()
+
+    # --------------------------------------
+    # Análisis de valores nulos
+    # --------------------------------------
+
+    def analizar_nulos(self):
+
+        nulos = self.df.isnull().sum()
+
+        return nulos[nulos > 0].sort_values(
+            ascending=False
+        )
+
+
+# ==========================================
 # CONFIGURACIÓN DE LA APLICACIÓN
 # ==========================================
 
@@ -103,6 +149,12 @@ elif opcion == "📂 Carga de datos":
         # ------------------------------------------
 
         df = pd.read_csv(archivo)
+
+        # ------------------------------------------
+        # CREACIÓN DEL ANALIZADOR
+        # ------------------------------------------
+
+        analyzer = DataAnalyzer(df)
 
         st.success("✅ Archivo cargado correctamente.")
 
@@ -215,6 +267,22 @@ elif opcion == "📂 Carga de datos":
             "✅ Los datos fueron revisados y preparados para el análisis."
         )
 
+        # ------------------------------------------
+        # 8. PRUEBA DE LA CLASE
+        # ------------------------------------------
+
+        variables_numericas, variables_categoricas = (
+            analyzer.clasificar_variables()
+        )
+
+        st.subheader("🔢 Variables numéricas")
+
+        st.write(variables_numericas)
+
+        st.subheader("🔤 Variables categóricas")
+
+        st.write(variables_categoricas)
+
     else:
 
         st.warning(
@@ -234,52 +302,3 @@ elif opcion == "📊 Análisis EDA":
         "Primero debes cargar el archivo CSV desde la sección "
         "'📂 Carga de datos'."
     )
-
-    st.info(
-        "Primero debes cargar el archivo CSV desde la sección "
-        "'📂 Carga de datos'."
-    )
-    # ==========================================
-# CLASE PARA EL ANÁLISIS DE DATOS
-# ==========================================
-
-class DataAnalyzer:
-
-    def __init__(self, df):
-        self.df = df
-
-    # --------------------------------------
-    # Clasificación de variables
-    # --------------------------------------
-
-    def clasificar_variables(self):
-
-        variables_numericas = self.df.select_dtypes(
-            include=np.number
-        ).columns.tolist()
-
-        variables_categoricas = self.df.select_dtypes(
-            exclude=np.number
-        ).columns.tolist()
-
-        return variables_numericas, variables_categoricas
-
-    # --------------------------------------
-    # Estadísticas descriptivas
-    # --------------------------------------
-
-    def estadisticas_descriptivas(self):
-
-        return self.df.describe()
-
-    # --------------------------------------
-    # Análisis de valores nulos
-    # --------------------------------------
-
-    def analizar_nulos(self):
-
-        nulos = self.df.isnull().sum()
-
-        return nulos[nulos > 0].sort_values(
-            ascending=False
-        )
