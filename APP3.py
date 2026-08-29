@@ -385,3 +385,20 @@ elif opcion == "📊 Análisis EDA":
         st.success(
             "✅ Análisis general completado correctamente."
         )
+                # ==========================================
+        # ANÁLISIS 2: ESTADÍSTICAS DESCRIPTIVAS
+        # ==========================================
+
+        st.header("2️⃣ Estadísticas descriptivas")
+
+        st.write(
+            "Resumen estadístico de las variables numéricas "
+            "del dataset."
+        )
+
+        estadisticas = analyzer.estadisticas_descriptivas()
+
+        st.dataframe(
+            estadisticas,
+            use_container_width=True
+        )
