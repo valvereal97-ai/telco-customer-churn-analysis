@@ -297,10 +297,6 @@ elif opcion == "📂 Carga de datos":
 elif opcion == "📊 Análisis EDA":
 
     st.title("📊 Análisis Exploratorio de Datos")
-        st.info(
-        "📌 Proyecto desarrollado para analizar los factores "
-        "relacionados con el abandono de clientes en una empresa "
-        "de telecomunicaciones."
 
     # ------------------------------------------
     # VERIFICAR SI EXISTE UN DATASET
