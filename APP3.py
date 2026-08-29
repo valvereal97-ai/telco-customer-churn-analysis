@@ -149,7 +149,7 @@ elif opcion == "📂 Carga de datos":
         # ------------------------------------------
 
         df = pd.read_csv(archivo)
-
+        st.session_state["df"] = df
         # ------------------------------------------
         # CREACIÓN DEL ANALIZADOR
         # ------------------------------------------
@@ -298,7 +298,90 @@ elif opcion == "📊 Análisis EDA":
 
     st.title("📊 Análisis Exploratorio de Datos")
 
-    st.info(
-        "Primero debes cargar el archivo CSV desde la sección "
-        "'📂 Carga de datos'."
-    )
+    # ------------------------------------------
+    # VERIFICAR SI EXISTE UN DATASET
+    # ------------------------------------------
+
+    if "df" not in st.session_state:
+
+        st.warning(
+            "⚠️ Primero debes cargar el archivo CSV "
+            "desde la sección '📂 Carga de datos'."
+        )
+
+    else:
+
+        df = st.session_state["df"]
+
+        analyzer = DataAnalyzer(df)
+
+        # ------------------------------------------
+        # ANÁLISIS 1: INFORMACIÓN GENERAL
+        # ------------------------------------------
+
+        st.header("1️⃣ Información general del dataset")
+
+        st.write(
+            "En esta sección se presenta un resumen general "
+            "de la información disponible en el dataset."
+        )
+
+        # ------------------------------------------
+        # INDICADORES
+        # ------------------------------------------
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+
+            st.metric(
+                "👥 Total de clientes",
+                df.shape[0]
+            )
+
+        with col2:
+
+            st.metric(
+                "📊 Total de variables",
+                df.shape[1]
+            )
+
+        with col3:
+
+            st.metric(
+                "❌ Valores nulos",
+                int(df.isnull().sum().sum())
+            )
+
+        # ------------------------------------------
+        # INFORMACIÓN DE VARIABLES
+        # ------------------------------------------
+
+        st.subheader("📋 Información de las variables")
+
+        variables_numericas, variables_categoricas = (
+            analyzer.clasificar_variables()
+        )
+
+        informacion_variables = pd.DataFrame({
+            "Variable": df.columns,
+            "Tipo de dato": df.dtypes.astype(str).values
+        })
+
+        informacion_variables["Tipo de variable"] = (
+            informacion_variables["Variable"].apply(
+                lambda x:
+                "Numérica"
+                if x in variables_numericas
+                else "Categórica"
+            )
+        )
+
+        st.dataframe(
+            informacion_variables,
+            use_container_width=True
+        )
+
+        st.success(
+            "✅ Análisis general completado correctamente."
+        )
