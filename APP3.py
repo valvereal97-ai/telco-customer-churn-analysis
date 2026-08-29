@@ -605,3 +605,138 @@ elif opcion == "📊 Análisis EDA":
         st.pyplot(fig)
 
         plt.close(fig)
+                # ==========================================
+        # ANÁLISIS 7: CHURN SEGÚN GÉNERO
+        # ==========================================
+
+        st.header("7️⃣ Churn según género")
+
+        st.write(
+            "Análisis de la distribución del Churn "
+            "según el género del cliente."
+        )
+
+        genero_churn = pd.crosstab(
+            df["gender"],
+            df["Churn"]
+        )
+
+        st.dataframe(
+            genero_churn,
+            use_container_width=True
+        )
+
+        fig, ax = plt.subplots()
+
+        genero_churn.plot(
+            kind="bar",
+            ax=ax
+        )
+
+        ax.set_title(
+            "Churn según género"
+        )
+
+        ax.set_xlabel("Género")
+
+        ax.set_ylabel("Cantidad de clientes")
+
+        plt.xticks(rotation=0)
+
+        ax.legend(
+            title="Churn"
+        )
+
+        st.pyplot(fig)
+
+        plt.close(fig)
+                # ==========================================
+        # ANÁLISIS 8: CHURN SEGÚN INTERNET
+        # ==========================================
+
+        st.header("8️⃣ Churn según servicio de Internet")
+
+        st.write(
+            "Análisis de la relación entre el servicio "
+            "de Internet contratado y el Churn."
+        )
+
+        internet_churn = pd.crosstab(
+            df["InternetService"],
+            df["Churn"]
+        )
+
+        st.dataframe(
+            internet_churn,
+            use_container_width=True
+        )
+
+        fig, ax = plt.subplots()
+
+        internet_churn.plot(
+            kind="bar",
+            ax=ax
+        )
+
+        ax.set_title(
+            "Churn según servicio de Internet"
+        )
+
+        ax.set_xlabel("Servicio de Internet")
+
+        ax.set_ylabel("Cantidad de clientes")
+
+        plt.xticks(rotation=0)
+
+        ax.legend(
+            title="Churn"
+        )
+
+        st.pyplot(fig)
+
+        plt.close(fig)
+                # ==========================================
+        # ANÁLISIS 8: CHURN SEGÚN INTERNET
+        # ==========================================
+
+        st.header("8️⃣ Churn según servicio de Internet")
+
+        st.write(
+            "Análisis de la relación entre el servicio "
+            "de Internet contratado y el Churn."
+        )
+
+        internet_churn = pd.crosstab(
+            df["InternetService"],
+            df["Churn"]
+        )
+
+        st.dataframe(
+            internet_churn,
+            use_container_width=True
+        )
+
+        fig, ax = plt.subplots()
+
+        internet_churn.plot(
+            kind="bar",
+            ax=ax
+        )
+
+        ax.set_title(
+            "Churn según servicio de Internet"
+        )
+
+        ax.set_xlabel("Servicio de Internet")
+
+        ax.set_ylabel("Cantidad de clientes")
+
+        plt.xticks(rotation=0)
+
+        ax.legend(
+            title="Churn"
+        )
+
+        st.pyplot(fig)
+
+        plt.close(fig)
